@@ -6,37 +6,37 @@ const storage = new Storage();
 const bucketName = process.env.BUCKET_NAME;
 
 // Function to upload a file
-async function uploadFile(fileName) {
+async function uploadThisFile(fileName) {
     try {
         await storage.bucket(bucketName).upload(fileName, {
             gzip: true,
             metadata: {
-                cacheControl: 'public, max-age=31536000',
+                cacheControl: 'public, max-age=3100000',
             },
         });
-        console.log(`${fileName} uploaded to ${bucketName}.`);
+        console.log(`[UPLOAD] ${fileName} uploaded to ${bucketName}.`);
     } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error('[UPLOAD] Error :', error);
     }
 }
 
 // Function to download a file
-async function downloadFile(fileName, destination) {
+async function downloadThisFile(fileName, destination) {
     try {
         await storage.bucket(bucketName).file(fileName).download({
             destination: destination,
         });
-        console.log(`gs://${bucketName}/${fileName} downloaded to ${destination}.`);
+        console.log(`[DOWNLOAD] gs://${bucketName}/${fileName} downloaded to ${destination}.`);
     } catch (error) {
-        console.error('Error downloading file:', error);
+        console.error('[DOWNLOAD] Error :', error);
     }
 }
 
 // Example usage
 (async () => {
     // Upload a file
-    await uploadFile('/home/some-home-dir/Templates/file');
+    await uploadThisFile('~/Templates/file');
 
     // Download a file
-    await downloadFile('file', '~/Downloads');
+    await downloadThisFile('file', '~/Downloads/downloaded');
 })();
